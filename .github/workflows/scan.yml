@@ -21,6 +21,6 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.3.0
         with:
-          apiKey: ${{ secrets.HAWK_API_KEY }}
+          token: ${{ secrets.HAWK_API_KEY }}
           target: 'http://localhost:3000'
         
