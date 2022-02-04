@@ -5,19 +5,22 @@ name: CI
 on: [push]
 
 jobs:
-  zap_scan:
-    runs-on: ubuntu-latest
-    name: Scan the webapplication
+  build:
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Node.js 14.x
+        uses: actions/setup-node@v2
         with:
-          ref: master
+          node-version: 14.x
+      - name: Install Dependencies
+        run: npm clean-install
+      - name: Run Application
+        run: nohup npm run start &
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.3.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: 'https://www.zaproxy.org/'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          apiKey: ${{ secrets.HAWK_API_KEY }}
+          target: 'http://localhost:3000'
+        
