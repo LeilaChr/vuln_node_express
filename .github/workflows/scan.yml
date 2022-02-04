@@ -18,7 +18,7 @@ jobs:
         run: npm clean-install
       - name: Run Application
         run: nohup npm run start &
-      - name: ZAP Scan
+      - name: ZAP scan
         uses: zaproxy/action-full-scan@v0.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
