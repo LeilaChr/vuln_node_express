@@ -5,25 +5,35 @@ on: [push]
 
 jobs:
   nuclei-scan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: 1.17
+     - name: Checkout
+       uses: actions/checkout@v2
+     - name: Install Node.js 14.x
+       uses: actions/setup-node@v2
+       with:
+         node-version: 14.x
+     - name: Install Dependencies
+       run: npm clean-install
+     - uses: actions/setup-go@v2
+       with:
+           go-version: 1.17
+     - name: Run Application
+       run: nohup npm run start &
+     - name: Nuclei - DAST Scan
+       uses: projectdiscovery/nuclei-action@main
+       with:
+           target: http://localhost:3000
+           github-report: true
+           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Nuclei - DAST Scan
-        uses: projectdiscovery/nuclei-action@main
-        with:
-          target: http://localhost:3000
-
-      - name: GitHub Workflow artifacts
-        uses: actions/upload-artifact@v2
-        with:
+     - name: GitHub Workflow artifacts
+       uses: actions/upload-artifact@v2
+       with:
           name: nuclei.log
           path: nuclei.log
 
-      - name: GitHub Security Dashboard Alerts update
-        uses: github/codeql-action/upload-sarif@v1
-        with:
+     - name: GitHub Security Dashboard Alerts update
+       uses: github/codeql-action/upload-sarif@v1
+       with:
           sarif_file: nuclei.sarif
