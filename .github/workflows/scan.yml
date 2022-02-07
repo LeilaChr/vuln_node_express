@@ -15,7 +15,7 @@ jobs:
       - name: Nuclei - DAST Scan
         uses: projectdiscovery/nuclei-action@main
         with:
-          target: https://example.com
+          target: http://localhost:3000
 
       - name: GitHub Workflow artifacts
         uses: actions/upload-artifact@v2
