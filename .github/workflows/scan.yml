@@ -24,8 +24,7 @@ jobs:
        uses: projectdiscovery/nuclei-action@main
        with:
            target: http://localhost:3000
-           github-report: true
-           github-token: ${{ secrets.GITHUB_TOKEN }}
+           markdown-export: vuln_node_express
 
      - name: GitHub Workflow artifacts
        uses: actions/upload-artifact@v2
