@@ -1,0 +1,17 @@
+{
+  "scanSettings": {
+    "configMode": "AUTO",
+	"configExternalURL": "",
+	"projectToken": "",
+	"baseBranches": []
+  },
+  "checkRunSettings": {
+    "displayMode": "diff",
+    "vulnerableCheckRunConclusionLevel": "failure"
+  },
+  "issueSettings": {
+    "minSeverityLevel": "LOW"
+  },
+  parameter: python.path=python3
+  parameter: r.cranMirrorUrl=http://localhost:3000
+}
