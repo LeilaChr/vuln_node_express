@@ -15,24 +15,20 @@ jobs:
          node-version: 14.x
      - name: Install Dependencies
        run: npm clean-install
-     - uses: actions/setup-go@v2
-       with:
-           go-version: 1.17
      - name: Run Application
        run: nohup npm run start &
-     - name: Nuclei - DAST Scan
-       uses: projectdiscovery/nuclei-action@main
+     - name: Perform Scan
+       uses: ShiftLeftSecurity/scan-action@master
        with:
-           target: http://localhost:3000
-           markdown-export: vuln_node_express
+         type: "credscan,javascript"
+       env:
+         WORKSPACE: https://github.com/${{ github.repository }}/blob/${{ github.sha }}
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-     - name: GitHub Workflow artifacts
-       uses: actions/upload-artifact@v2
+     - uses: actions/upload-artifact@v1
        with:
-          name: nuclei.log
-          path: nuclei.log
+         name: reports
+         path: reports
 
-     - name: GitHub Security Dashboard Alerts update
-       uses: github/codeql-action/upload-sarif@v1
-       with:
-          sarif_file: nuclei.sarif
+
+
