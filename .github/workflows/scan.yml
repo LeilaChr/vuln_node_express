@@ -20,7 +20,7 @@ jobs:
      - name: Perform Scan
        uses: ShiftLeftSecurity/scan-action@master
        with:
-         type: "credscan,javascript,depscan"
+         type: "credscan,Node.js,depscan"
        env:
          WORKSPACE: https://github.com/${{ github.repository }}/blob/${{ github.sha }}
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
